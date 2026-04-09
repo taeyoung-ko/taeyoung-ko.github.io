@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual-Linguistic Design of This Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+</head>
+<body>
+  <main>
+    <style>
+  /* Korean web fonts for genre-specific typography */
+  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu:wght@400;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  .playground-wrap {
+    position: relative;
+    margin: -6rem -1.5rem 0;
+    min-height: 100vh;
+    padding: 4rem 2rem 6rem;
+    overflow: hidden;
+    cursor: crosshair;
+  }
+
+  .playground-header {
+    max-width: 720px;
+    margin: 0 auto 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .playground-header h1 {
+    font-family: "Lora", Georgia, serif;
+    font-size: 1.6rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .playground-header p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0 0 0.3rem;
+  }
+
+  .playground-header .hint {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .genre-picker {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .genre-btn {
+    font-family: "Lato", sans-serif;
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+    background: transparent;
+    border: 1px solid #d0d0d0;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--fg);
+    transition: all 0.15s ease;
+  }
+
+  .genre-btn:hover { border-color: var(--fg); }
+
+  .genre-btn.active {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .telop {
+    position: absolute;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+    animation: telop-life var(--life) ease-out forwards;
+    text-shadow: 0 0 8px rgba(255,255,255,0.3), 0 0 2px rgba(0,0,0,0.15);
+  }
+
+  @keyframes telop-life {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+    15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    25%  { transform: translate(-50%, -50%) scale(1); }
+    80%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, calc(-50% - 20px)) scale(1); }
+  }
+
+  .current-genre-label {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Lora", serif;
+    font-size: 0.85rem;
+    color: #999;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+</style>
+
+<div class="playground-wrap">
+  <div class="playground-header">
+    <a href="/" class="back-link">← back</a>
+    <h1>Your Cursor, Subtitled</h1>
+    <p>Move your cursor. Pick a genre.</p>
+    <p class="hint">Inspired by <em>Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop.</em> CSCW 2026</p>
+  </div>
+
+  <div class="genre-picker" id="genrePicker"></div>
+
+  <div class="stage" id="stage"></div>
+
+  <div class="current-genre-label" id="genreLabel"></div>
+</div>
+
+<script>
+const GENRES = {
+  ASMR: {
+    freq: 0.07, size: 45, font: '"Nanum Gothic", sans-serif', weight: 400,
+    hue: [20, 40], sat: [10, 30], val: [60, 90],
+    words: ['...', '바스락', '사각사각', '또각', '톡톡', '쉿', '조용히', '귓가에', '소오름', '스르륵', '찰랑', '음...', 'zzz', '새벽 3시', '불면증', '귀청소', '탭핑', '속삭임', '편안', '잠와요', '사르르', '보글보글', '쪼르륵', '톡-', '사박사박', '귀 간지러워', '뇌가 녹는다', '트리거 주의', '3D 사운드', '이어폰 필수', 'whisper', '소곤소곤', '아사사사', '찰박', '졸려요...', 'zzZ', '뽀득뽀득', '서걱서걱']
+  },
+  Automobiles: {
+    freq: 0.22, size: 39, font: '"Black Han Sans", sans-serif', weight: 700,
+    hue: [0, 360], sat: [5, 25], val: [85, 100],
+    words: ['부릉-', '엔진음♪', '출발!', '와...', '빠르다', '가속', '0→100', '연비 甲', '시승기', '풀옵션', '신형', '디자인', '실내', '주행감', '코너링', '정숙성', '가성비', '프리미엄', '2.4억', '중고 시세', '엔진룸', '트렁크', '370마력', 'V8', '하이브리드', '전기차', '충전', '1회 완충', '시속 200', '급제동', '언더스티어', '서스펜션', '터보', 'BMW', '아반떼 신형', '옵션질', '깡통 모델', '세단', 'SUV', '출고 대기', '인수기', '언박싱', '오프로드', '안전등급', '크래시 테스트']
+  },
+  Beauty: {
+    freq: 0.13, size: 45, font: '"Gowun Dodum", serif', weight: 500,
+    hue: [320, 360], sat: [30, 70], val: [85, 100],
+    words: ['예쁘다♡', '촉촉', '반짝✨', '피부결', '발색甲', '꿀팁', '인생템', '리뷰', '모공', '수분광', '글로우', 'MLBB', '데일리', '쿨톤', '웜톤', '블렌딩', '파데 뭐써요?', '존예', '각질', '올영 세일', '한 듯 안한 듯', '색조', '베이스', '21호', '23호', '립틴트', '쉐딩', '컨실러', '프라이머', '픽서', '세팅 파우더', '토너', '에센스', '앰플', '마스크팩', '진정', '트러블', '각질 제거', '피부톤업', '다크서클', '애교살', '스모키', '데일리 메이크업', '출근 메이크업', '여름 베이스', '지속력 甲', '뽀얀 피부', '❤']
+  },
+  'Current Affairs & Politics': {
+    freq: 0.33, size: 42, font: '"Noto Serif KR", serif', weight: 700,
+    hue: [210, 230], sat: [40, 70], val: [70, 95],
+    words: ['속보', '단독', '문제는', '대통령', '논란', '쟁점', '사실은', '국회', '여야', '공방', '입장문', '"...."', '반박', '의혹', '진상', '파문', '긴급', '브리핑', '지지율', '민주당', '국민의힘', '후원계좌', '제보 환영', '신고번호', '청문회', '국정감사', '법안 통과', '본회의', '표결', '의원', '발언', '야당', '여당', '정치권', '개헌', '탄핵', '수사', '검찰', '경찰', '판결', '대법원', '헌재', '선거', '공약', '지지층', '여론조사', '%', '재판', '1심', '2심']
+  },
+  Economy: {
+    freq: 0.64, size: 31, font: '"JetBrains Mono", monospace', weight: 500,
+    hue: [200, 230], sat: [5, 20], val: [85, 100],
+    words: ['▲2.4%', '▼0.8%', '투자', '시장', '수익률', 'KOSPI', 'S&P500', '금리 인상', 'FOMC', '환율', '₩1,380', '$', '나스닥', 'ETF', '배당', '분석', '전망', '리스크', '포트폴리오', '현금흐름', '부동산', '인플레', '원자재', '긴축', 'PER 12.4', '시총', 'GDP', '▲5.7%', '▼1.2%', '연준', '파월', '₩2,450', '¥100', '€', '₿', '45,320', '상승', '하락', '하한가', '상한가', '증시', '코인', '선물', '옵션', '유가', 'WTI', '금값', '채권', '수익률 5.2%', '2008년', '리먼', '버블']
+  },
+  Education: {
+    freq: 0.39, size: 57, font: '"Noto Sans KR", sans-serif', weight: 700,
+    hue: [0, 360], sat: [0, 10], val: [15, 30],
+    words: ['중요!', '외우자', 'vocabulary', '핵심', 'POINT', '영어', '문법', 'subject', 'verb', '예문', 'Let me...', '원어민', '발음', 'tip!', '기출', '수능', '개념', '공식', '∴', '풀이', '정답은?', '한 번 더', '이해됐나요?', 'Q.', 'A.', '암기법', '필수!', '꼭 알아두세요', 'Chapter 1', 'Step 1.', '1)', '2)', '3)', 'ex)', 'practice', 'grammar', 'idiom', 'phrase', 'I have been...', 'past tense', '현재완료', '가정법', '관계대명사', '모의고사', '오답노트', '복습', '예습', '단어장', '★']
+  },
+  Entertainment: {
+    freq: 0.16, size: 55, font: '"Jua", sans-serif', weight: 900,
+    hue: [0, 60], sat: [70, 100], val: [90, 100],
+    words: ['ㅋㅋㅋㅋ', '대박', '헐', '미쳤다', '실화냐', '?!', '와 진짜', '어머어머', 'ㅠㅠㅠ', '레전드', '광기', '웃참 실패', '현웃', '폭소', 'MC픽', '???', '당황', '이게 뭐야', 'ㅇ_ㅇ', '후덜덜', '반전', '소오름', '편집자주: ...', '와 대박', '헐 쩔어', '실화임?', '미친ㅋㅋ', '개웃겨', 'ㅋㅋㅋㅋㅋㅋ', '캬-', '오졌다', '레전드각', '이거 봐봐', '잠깐', 'STOP', '이거 뭐야;;', '난리났다', '와 미쳤어', 'MC 표정 ㅋㅋ', '자기소개', '첫 등장', '이름이?', '나이는?', 'MBTI는?', '?!?!?!', '역대급', '인정', '?', '!!!']
+  },
+  Fashion: {
+    freq: 0.10, size: 44, font: '"Gowun Batang", serif', weight: 400,
+    hue: [300, 360], sat: [20, 50], val: [80, 100],
+    words: ['#OOTD', 'chic.', '스타일', '코디', 'mood', 'look', 'vintage', 'minimal', 'F/W', '톤온톤', '레이어링', '시그니처', 'GUCCI', '₩890,000', 'sold out', 'restock', '감각적인', '데일리룩', '오피스룩', '하객룩', '키포인트', '소재', 'S/S 2026', 'PRADA', 'MIU MIU', 'Celine', 'Dior', '하이엔드', '컨템포러리', '레트로', 'Y2K', '놈코어', '미니멀', '맥시멀', '₩1,200,000', 'runway', 'lookbook', 'styling tip', 'outerwear', '테일러드', '핏', 'silhouette', 'seasonal', 'must-have', 'it item', '코디 팁', '컬러 블록', '포인트']
+  },
+  'Film & Animation': {
+    freq: 0.13, size: 49, font: '"Nanum Myeongjo", serif', weight: 400,
+    hue: [0, 360], sat: [10, 40], val: [80, 100],
+    words: ['그리고...', '...', '그 순간', '???', '엄마', '기억', '몇 년 후', '다음 날 아침', '한편', '플래시백', '그때 그 사람', '회상', '결말 주의', '명장면', '마지막 장면', '떨림', '운명', '재회', '이별', '첫 만남', '진실은', '10년 전', '그해 여름', '어느 날', '- 끝 -', 'End.', 'Fin.', '다음 편에 계속', 'to be continued', '1화', '2화', '마지막화', 'Chapter II', '-환영-', '-침묵-', '누구...?', '거기 누구야', '돌아와', '사라진', '흔적', 'OST', '메인 테마', '눈물 주의', '스포 주의', '명대사', '그 말이']
+  },
+  'Food & Mukbang': {
+    freq: 0.35, size: 38, font: '"Jua", sans-serif', weight: 700,
+    hue: [0, 40], sat: [60, 90], val: [0, 100], bimodal: true,
+    words: ['맛있다', '존맛', '바삭-', '쭉-', '꿀꺽', '치즈각', '후루룩', '냠냠', '겉바속촉', '불맛', 'ASMR甲', '한 입에', '두툼', '육즙 폭발', '진국', '고기파티', '단짠단짠', '국물 미쳤다', '인생 맛집', '리필', '밥도둑', '당면', '깍두기 찢었다', '양 실화?', '혼밥', '치-즈', '와구와구', '쫀득', '바삭바삭', '촉촉', '야들야들', '녹는다', '침샘 폭발', '국물 진해', '매운맛 甲', '2배 매움', '엽떡', '라면', '치킨', '피자', '곱창', '막창', '대창', 'ㄹㅇ 맛집', '한 그릇 뚝딱', '배부르다', '디저트각', '후식', '마무리', 'ㅊㅋㅊㅋ', '쏙쏙', '착착']
+  },
+  FUN: {
+    freq: 0.27, size: 40, font: '"Black Han Sans", sans-serif', weight: 900,
+    hue: [0, 360], sat: [70, 100], val: [85, 100],
+    words: ['ㅋㅋㅋㅋㅋ', '?!?!', '와ㅋㅋ', '헉', '???', '어머', '뭐임?', '현타', 'ㅋㅋㅠㅠ', '와진짜', 'ㄹㅇ', 'ㅁㅊ', '개웃김', '핵폭탄', '미친영상', '이거 실화?', '찐웃음', '빵터짐', 'ㅋ x 100', '무한반복', 'ㅇㅅㅇ', 'ㅎㅎ;;', '편집 뭐해ㅋㅋ', 'ㄷㄷ', 'ㅇㅇ', 'ㄴㄴ', 'ㅂㄷㅂㄷ', 'ㅠㅠ', 'ㅠㅜ', '아놐ㅋㅋ', '아니ㅋㅋ', '잠깐ㅋㅋ', '야ㅋㅋ', '와 개웃겨', '진짜 ㅋㅋ', '1분 순삭', '유머짤', '밈각', '레전드짤', '이게뭐야', '?????', '!!!!!!!', 'ㅗㅜㅑ', '와우', 'WOW', ';;;;', '!!!', '?!!?']
+  },
+  Gaming: {
+    freq: 0.37, size: 30, font: '"JetBrains Mono", monospace', weight: 700,
+    hue: [0, 360], sat: [70, 100], val: [70, 100],
+    words: ['[KILL]', 'GG', '와씨', '죽이네', '+100', 'nice!', 'HP: 23', 'MP: 0', '쿨타임', '궁 각', '백도어', '한타', '트롤 ㄴㄴ', '드랍', '루팅', '리스폰', 'Headshot!', 'combo x5', '딜 미쳤다', '빠른별', 'gg wp', 'afk', '1vs5', '역전각', '인 게임', '팀운', '솔랭', '[WIN]', '[LOSE]', '[DEFEAT]', '[VICTORY]', 'K/D: 12/2', 'ACE', 'Double Kill', 'Triple Kill', 'PENTA', '와드', '정글링', '라인전', '포탑', '바론', '드래곤', '미드', '탑', '봇', '서폿', 'ADC', 'ping 30ms', 'fps 144', '1:23', '리메이크', '서렌', '??', 'ez', '개잘함', 'carry']
+  },
+  'IT & Science': {
+    freq: 1.00, size: 25, font: '"JetBrains Mono", monospace', weight: 400,
+    hue: [180, 220], sat: [0, 15], val: [85, 100],
+    words: ['sudo', 'function()', '→', '0.28ms', 'v2.1', '{...}', 'npm i', 'git push', 'null', 'undefined', 'Ctrl+C', 'return 0;', 'Array.map', 'async/await', '// TODO', 'error', '[INFO]', 'build ✓', 'iPhone 17', 'M5 chip', 'GPT-5', 'RAM 32GB', 'benchmark', 'API', 'deprecated', '0101', 'SSD', '그래서 결론은', 'const x =', 'let i = 0', 'for (;;)', 'if (true)', 'return;', '=>', '===', '!==', 'import', 'export default', 'React', 'Vue', 'Python 3.12', 'pip install', 'docker run', 'kubectl', 'AWS', 'cloud', 'GPU', 'CUDA', 'TFLOPs', 'LLM', 'transformer', 'attention', 'token', 'prompt', '[DEBUG]', 'stdout', 'Ctrl+Z', 'vim', 'tmux', 'ssh', 'curl', 'fetch()', '200 OK', '404', '500', 'JSON', 'YAML']
+  },
+  Kids: {
+    freq: 0.04, size: 62, font: '"Gaegu", cursive', weight: 700,
+    hue: [30, 90], sat: [80, 100], val: [95, 100],
+    words: ['친구야~', '우와!', '짠!', '룰루♪', '두근두근', '야호!', '빰빠밤', '뽀잉', '왈왈', '반짝반짝', '꺄르르', '호이!', '도전!', '어흥!', '데굴데굴', '폴짝폴짝', '토닥토닥', '이얏호', '따라해봐요', '좋아요♡', '구독♡', '알림설정', '쿵짝쿵짝', '뾰로롱', '슈퍼맨', '영차영차', '찡긋', '엄마~', '아빠~', '같이 놀자', '놀이터', '재밌다!', '빨강', '파랑', '노랑', '동물 친구', '사자', '코끼리', '기린', '곰돌이', '숫자 놀이', '1,2,3!', '가나다', '알록달록', '해피', '즐거워']
+  },
+  Knowledge: {
+    freq: 0.54, size: 29, font: '"Noto Sans KR", sans-serif', weight: 500,
+    hue: [200, 240], sat: [10, 30], val: [85, 100],
+    words: ['사실은', '그런데', '참고로', '∴', '즉,', '핵심은', '알고 보면', '1,2,3...', '반전', '역사적으로', '의외로', '놀랍게도', '정답:', '그 이유는', '실제로는', '한편', '요약', '최근 연구', '통계에 따르면', '※', 'Q1.', '자, 그럼', '이건 몰랐죠?', '믿거나 말거나', '예를 들어', '다시 말해', '결론적으로', '첫째,', '둘째,', '셋째,', '하지만', '그러나', '왜냐하면', '정리하면', '간단히 말해', '쉽게 말해', 'Fact.', 'Myth.', '진실', '거짓', '19세기', '20세기', '현대에는', '고대', '중세', '과학자들은', '연구 결과', '42%', '3배 이상', 'BC 500년', '📖', '✓']
+  },
+  Music: {
+    freq: 0.08, size: 45, font: '"Nanum Pen Script", cursive', weight: 400,
+    hue: [280, 340], sat: [40, 70], val: [80, 100],
+    words: ['♪', '사랑해', '그대여~', '♫', 'la la la', '떠나', '바람결에', '추억 속 너', '...그리워', 'oh oh', '(간주중)', '후렴', 'Verse 1', '눈물이', '밤하늘', '별처럼', '잊을 수 없어', '마지막 인사', '멜로디', 'MV', '♬♪♫', '♩', '♭', '♯', 'Bridge', 'Chorus', 'Outro', 'Intro', '다시 한 번', '그리움', '애틋해', '이 노래', '그 시절', '첫사랑', '이별 후', '돌아와줘', '(기타 솔로)', 'woo~', 'yeah~', '너와 나', '둘이서', '밤새도록', '3분 20초', 'Track 01', 'Album', '신곡', '타이틀곡', '라이브', '커버곡']
+  },
+  News: {
+    freq: 0.24, size: 46, font: '"Noto Serif KR", serif', weight: 700,
+    hue: [210, 230], sat: [50, 80], val: [85, 100],
+    words: ['[속보]', '오늘', '정부', '발표', '입장', '확인', '보도', '[단독]', '공식', '취재', '현장', '긴급', '/연합뉴스', '/KBS', '기자입니다', '오후 3시', '국정', '브리핑', '청와대', '장관', '정책', '추진', '논의', '확정', '/MBC', '/SBS', '/YTN', '/JTBC', '앵커', '현장 연결', '리포트', '오전 9시', '어제', '내일', '이번 주', '전망', '분석', '관계자', '익명', '사건', '사고', '조사', '체포', '구속', '기소', '무죄', '유죄', '판결', '1면', '헤드라인', '논평', '칼럼', '사설', '▶']
+  },
+  'Pets & Animals': {
+    freq: 0.09, size: 50, font: '"Gaegu", cursive', weight: 400,
+    hue: [20, 50], sat: [40, 70], val: [90, 100],
+    words: ['귀여워ㅠㅠ', '몽실', '킁킁', '뀨?', '쫑긋', '하트뿅♡', '꼬물꼬물', '멍뭉이', '냥냥', '까꿍', '졸려', '뽀뽀', '간식 타임', '산책 ㄱ?', '집사님', '왈왈', '골골', '부비부비', '냥냥펀치', '뒹굴뒹굴', '애교 폭발', '심쿵', '사랑해', '멍!', '야옹~', '짹짹', '꼬꼬', '짱!', '옹알옹알', '핥핥', '쪽쪽', '후다닥', '두리번', '꼬리 살랑', '귀 쫑긋', '쿨쿨', '냥펀치', '골골송', '츄르', '발바닥', '젤리', '간식 주세여', '강아지', '고양이', '햄스터', '토끼', '앵무새', '거북이', '새끼', '엄마냥', '♡', '♥']
+  },
+  'Society & Religion': {
+    freq: 0.33, size: 47, font: '"Nanum Myeongjo", serif', weight: 500,
+    hue: [40, 60], sat: [20, 50], val: [80, 100],
+    words: ['하나님', '기도', '사랑', '말씀', '믿음', '아멘', '은혜', '감사', '예수님', '주님', '구원', '섬김', '평강', '축복', '찬양', '교회', '성령', '말씀 속에', '오늘의 묵상', '공동체', '하나님의 뜻', '주일', '목사님', '기도 제목', '요한복음 3:16', '시편 23:1', '마태복음', '창세기', '출애굽기', '성경 말씀', '기도합시다', '할렐루야', '영광', '영원히', '천국', '지옥', '십자가', '부활', '예배', '찬송가', '성가대', '청년부', '선교', '순종', '회개', '용서', '사명', '나눔', '봉사', '이웃 사랑']
+  },
+  Sports: {
+    freq: 0.21, size: 45, font: '"Black Han Sans", sans-serif', weight: 900,
+    hue: [0, 30], sat: [60, 90], val: [90, 100],
+    words: ['GOAL!!!', '와!!!', '역전', '찬스', '+1', '경기', '2:1', '후반 43분', '코너킥', '레드카드', '오프사이드', 'VAR', '골 결정력', '수비 뚫었다', '득점', '수비수', 'MVP', '손흥민', '선수교체', '연장전', '우승', '리그 1위', '시즌 최고', '감독의 한 수', '경기 하이라이트', 'SHOT!', 'SAVE!', 'PENALTY', '프리킥', '헤딩골', '어시스트', '3:2', '1:0', '전반 22분', '추가시간 +3', '옐로카드', '경고', '퇴장', '선발 라인업', '벤치', '교체 투입', '페널티킥', '스로인', '골키퍼', '공격수', '미드필더', '챔피언스리그', '월드컵', '손세이셔널', '🏆', '⚽']
+  },
+  Travel: {
+    freq: 0.10, size: 52, font: '"Gowun Dodum", serif', weight: 400,
+    hue: [20, 50], sat: [30, 60], val: [0, 100], bimodal: true,
+    words: ['도착!', '와...', '풍경맛집', '여기가?', '현지', '힐링', '노을', '숨은 명소', '로컬 추천', '₩12,000', '3박 4일', '항공권', '바다뷰', '야경', '골목길', '맛집 발견', '길치 주의', '뚜벅이', '버스 탑승', 'check-in', '오사카', '치앙마이', '제주', '비 오네', '날씨 최고', '게스트하우스', 'Day 1', 'Day 2', 'Day 3', '08:30 AM', '공항 도착', '출국', '입국', '환전', '로밍', '구글맵', '택시 ₩8,000', '지하철', '버스', '기차', '호텔', '에어비앤비', '숙소', '조식', '야시장', '현지 음식', '바가지 조심', '기념품', '엽서', '여권', '비자', '7시간 비행', '시차 적응']
+  },
+  'Vlog & Daily Life': {
+    freq: 0.11, size: 46, font: '"Gaegu", cursive', weight: 400,
+    hue: [10, 40], sat: [25, 55], val: [85, 100],
+    words: ['오늘은', '음~', '그냥', '하루', '소소', '그런 날', '일상', '아침 8시', '커피 한 잔', '퇴근길', '오랜만에', '오늘의 메뉴', '루틴', '주말', '혼자만의 시간', '기분 전환', '정리중', '설렘', '피곤...', '그래도 행복', '기록', '소확행', '요즘', '느리게', '아침 루틴', '모닝 커피', '독서', '요가', '산책', '저녁 메뉴', '집밥', '장보기', '청소', '빨래', '영화 한 편', '드라마', '책 한 권', '일기', '주말 아침', '늦잠', '낮잠', 'Good morning', 'Good night', '12월', '봄이 왔다', '비 오는 날', '맑음', '오후 2시', '오후 5시', '하루 끝', '잘자요']
+  }
+};
+
+// ---- utilities ----
+function rand(min, max) { return Math.random() * (max - min) + min; }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+// HSV (0-360, 0-100, 0-100) → CSS hsl() string
+function hsvToHsl(h, s, v) {
+  s /= 100; v /= 100;
+  const l = v - v * s / 2;
+  const m = Math.min(l, 1 - l);
+  const sl = m ? (v - l) / m : 0;
+  return `hsl(${h}, ${sl * 100}%, ${l * 100}%)`;
+}
+
+function sampleColor(g) {
+  const h = rand(g.hue[0], g.hue[1]) % 360;
+  const s = rand(g.sat[0], g.sat[1]);
+  let v;
+  if (g.bimodal) {
+    // pick from either low or high extreme
+    v = Math.random() < 0.5 ? rand(0, 20) : rand(80, 100);
+  } else {
+    v = rand(g.val[0], g.val[1]);
+  }
+  return hsvToHsl(h, s, v);
+}
+
+// ---- state ----
+let currentGenre = 'Entertainment';
+let lastSpawn = 0;
+const SPAWN_COOLDOWN_BASE = 20; // ms, scaled by freq
+
+// ---- genre picker UI ----
+const picker = document.getElementById('genrePicker');
+const label = document.getElementById('genreLabel');
+
+Object.keys(GENRES).forEach(name => {
+  const btn = document.createElement('button');
+  btn.className = 'genre-btn';
+  btn.textContent = name;
+  btn.addEventListener('click', () => {
+    currentGenre = name;
+    document.querySelectorAll('.genre-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    label.textContent = name;
+  });
+  if (name === currentGenre) btn.classList.add('active');
+  picker.appendChild(btn);
+});
+label.textContent = currentGenre;
+
+// ---- telop spawning ----
+const stage = document.getElementById('stage');
+
+function spawnTelop(x, y) {
+  const g = GENRES[currentGenre];
+  const el = document.createElement('div');
+  el.className = 'telop';
+  el.textContent = pick(g.words);
+
+  // slight jitter around cursor
+  const jitterX = rand(-60, 60);
+  const jitterY = rand(-40, 40);
+  el.style.left = (x + jitterX) + 'px';
+  el.style.top = (y + jitterY) + 'px';
+
+  el.style.fontFamily = g.font;
+  el.style.fontWeight = g.weight;
+    const exaggerated = 43 + (g.size - 43) * 1.8;
+    el.style.fontSize = (exaggerated + rand(-3, 3)) + 'px';
+  el.style.color = sampleColor(g);
+
+  // slight rotation for playful genres
+  const rotateGenres = ['Entertainment', 'FUN', 'Kids', 'Pets & Animals', 'Gaming'];
+  if (rotateGenres.includes(currentGenre)) {
+    el.style.transform = `translate(-50%, -50%) rotate(${rand(-8, 8)}deg)`;
+  }
+
+  const life = rand(1200, 2000);
+  el.style.setProperty('--life', life + 'ms');
+
+  stage.appendChild(el);
+  setTimeout(() => el.remove(), life + 100);
+}
+
+// ---- mouse tracking ----
+document.addEventListener('mousemove', (e) => {
+  const now = performance.now();
+  const g = GENRES[currentGenre];
+  // cooldown inversely proportional to freq
+  const cooldown = SPAWN_COOLDOWN_BASE / Math.max(g.freq, 0.03);
+  if (now - lastSpawn < cooldown) return;
+  lastSpawn = now;
+  // spawn probability also influenced by freq
+  if (Math.random() < Math.min(g.freq * 4, 1)) {
+    spawnTelop(e.clientX, e.clientY);
+  }
+});
+
+// touch support
+document.addEventListener('touchmove', (e) => {
+  const t = e.touches[0];
+  if (!t) return;
+  const now = performance.now();
+  const g = GENRES[currentGenre];
+  const cooldown = SPAWN_COOLDOWN_BASE / Math.max(g.freq, 0.03);
+  if (now - lastSpawn < cooldown) return;
+  lastSpawn = now;
+  if (Math.random() < Math.min(g.freq * 4, 1)) {
+    spawnTelop(t.clientX, t.clientY);
+  }
+}, { passive: true });
+</script>
+  </main>
+  <hr class="footer-rule">
+  <footer class="site-footer">
+    <span id="weather">Ulsan</span>
+    <span id="clock"></span>
+  </footer>
+
+  <script>
+  (function() {
+    // UNIST, Ulsan
+    const lat = 35.5384;
+    const lon = 129.2540;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`;
+
+    function describe(code) {
+      if (code === 0) return ['☀️', 'clear'];
+      if (code <= 3) return ['⛅', 'partly cloudy'];
+      if (code <= 48) return ['🌫️', 'foggy'];
+      if (code <= 57) return ['🌦️', 'drizzling'];
+      if (code <= 67) return ['🌧️', 'rainy'];
+      if (code <= 77) return ['❄️', 'snowy'];
+      if (code <= 82) return ['🌦️', 'showering'];
+      if (code <= 86) return ['🌨️', 'snowing'];
+      if (code <= 99) return ['⛈️', 'thunderstorming'];
+      return ['', ''];
+    }
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        const temp = Math.round(data.current.temperature_2m);
+        const [emoji, label] = describe(data.current.weather_code);
+        document.getElementById('weather').textContent =
+          `Ulsan is ${label} ${emoji} ${temp}°C`;
+      })
+      .catch(() => {
+        document.getElementById('weather').textContent = 'Ulsan';
+      });
+  })();
+
+  (function() {
+    const clock = document.getElementById('clock');
+    function tick() {
+      const now = new Date().toLocaleTimeString('en-GB', {
+        timeZone: 'Asia/Seoul',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      clock.textContent = `It's ${now} in Ulsan`;
+    }
+    tick();
+    setInterval(tick, 1000 * 30);
+  })();
+  </script>
+</body>
+</html>

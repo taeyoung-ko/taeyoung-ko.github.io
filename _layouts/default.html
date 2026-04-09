@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+</head>
+<body>
+  <main>
+    {{ content }}
+  </main>
+  <hr class="footer-rule">
+  <footer class="site-footer">
+    <span id="weather">Ulsan</span>
+    <span id="clock"></span>
+  </footer>
+
+  <script>
+  (function() {
+    // UNIST, Ulsan
+    const lat = 35.5384;
+    const lon = 129.2540;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`;
+
+    function describe(code) {
+      if (code === 0) return ['☀️', 'clear'];
+      if (code <= 3) return ['⛅', 'partly cloudy'];
+      if (code <= 48) return ['🌫️', 'foggy'];
+      if (code <= 57) return ['🌦️', 'drizzling'];
+      if (code <= 67) return ['🌧️', 'rainy'];
+      if (code <= 77) return ['❄️', 'snowy'];
+      if (code <= 82) return ['🌦️', 'showering'];
+      if (code <= 86) return ['🌨️', 'snowing'];
+      if (code <= 99) return ['⛈️', 'thunderstorming'];
+      return ['', ''];
+    }
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        const temp = Math.round(data.current.temperature_2m);
+        const [emoji, label] = describe(data.current.weather_code);
+        document.getElementById('weather').textContent =
+          `Ulsan is ${label} ${emoji} ${temp}°C`;
+      })
+      .catch(() => {
+        document.getElementById('weather').textContent = 'Ulsan';
+      });
+  })();
+
+  (function() {
+    const clock = document.getElementById('clock');
+    function tick() {
+      const now = new Date().toLocaleTimeString('en-GB', {
+        timeZone: 'Asia/Seoul',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      clock.textContent = `It's ${now} in Ulsan`;
+    }
+    tick();
+    setInterval(tick, 1000 * 30);
+  })();
+  </script>
+</body>
+</html>

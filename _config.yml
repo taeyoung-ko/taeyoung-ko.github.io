@@ -1,0 +1,5 @@
+url: "https://taeyoung-ko.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "" # the subpath of your site, e.g. /blog
+title: Taeyoung Ko
+description: Ph.D. Candidate, Department of Design, UNIST
+email: tyk0506@unist.ac.kr
