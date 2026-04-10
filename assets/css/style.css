@@ -253,3 +253,73 @@ a:hover { border-bottom-color: var(--fg); }
   font-weight: 300;
   color: var(--muted);
 }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 720px) {
+  main {
+    padding: 3rem 1.25rem;
+  }
+
+  h2 {
+    margin: 3.5rem 0 1.25rem;
+  }
+
+  /* Hero */
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .profile {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .hero-right p {
+    text-align: left;
+  }
+
+  .hero-right .contact a {
+    margin-right: 1.2rem;
+    display: inline-block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Education */
+  .edu-list {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Pub cards: stack image/meta above abstract */
+  .pub-preview {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pub-abstract {
+    text-align: left;
+  }
+
+  /* Footer */
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .footer-rule {
+    margin: 0 1.25rem;
+  }
+
+  /* Playground page */
+  .playground-wrap {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .genre-btn {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
