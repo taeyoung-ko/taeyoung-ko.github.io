@@ -20,6 +20,13 @@ body {
   color: var(--fg);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 main {
@@ -53,7 +60,7 @@ em { color: var(--fg); font-style: italic; }
 hr {
   border: 0;
   border-top: 1px solid var(--rule);
-  margin: 1rem 0;
+  margin: 0;
 }
 
 a {
@@ -86,7 +93,7 @@ a:hover { border-bottom-color: var(--fg); }
 .hero-right p {
   font-size: 0.95rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--fg);
   text-align: justify;
 }
@@ -94,7 +101,6 @@ a:hover { border-bottom-color: var(--fg); }
 .profile {
   display: block;
   width: 100%;
-  
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
@@ -110,13 +116,6 @@ a:hover { border-bottom-color: var(--fg); }
 .hero-right .contact a {
   color: var(--fg);
   margin-right: 2rem;
-}
-
-@media (max-width: 640px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
 }
 
 /* ---------- Education ---------- */
@@ -136,7 +135,8 @@ a:hover { border-bottom-color: var(--fg); }
 /* ---------- Publications ---------- */
 .pub {
   color: var(--fg);
-  margin: 0 0 2rem;
+  padding: 1.5rem;
+  margin: 0;
 }
 
 .pub-title {
@@ -207,29 +207,46 @@ a:hover { border-bottom-color: var(--fg); }
   margin: 0;
 }
 
-/* ---------- Playground card ---------- */
-.playground-card {
+/* ---------- Hoverable card ---------- */
+.hover-card {
   position: relative;
 }
 
-.playground-card .card-link {
+.hover-card::before {
+  content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #FF5500, #CCFF00, #00CCFF);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hover-card:hover::before {
+  opacity: 0.1;
+}
+
+.hover-card .card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   border-bottom: none;
 }
 
-.playground-card:hover .pub-image {
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
+.hover-card .pub-preview {
+  position: relative;
+  z-index: 1;
 }
 
+/* Playground-specific: keep title styling */
 .playground-card .pub-title {
   font-size: 1rem;
   font-weight: 700;
 }
 
-
+/* ---------- Footer ---------- */
 .footer-rule {
   max-width: 1280px;
   margin: 0 auto;
@@ -240,7 +257,7 @@ a:hover { border-bottom-color: var(--fg); }
 .site-footer {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem 1.5rem 3rem;
+  padding: 2.5rem 1.5rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

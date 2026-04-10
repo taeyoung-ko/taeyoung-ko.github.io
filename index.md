@@ -29,7 +29,6 @@ title: Taeyoung Ko
   </div>
 </div>
 
-
 ## Education
 
 <div class="edu-list">
@@ -46,10 +45,12 @@ title: Taeyoung Ko
   </div>
 </div>
 
-
 ## Research
+
 ---
-<div class="pub">
+
+<div class="pub hover-card">
+  <a href="#" class="card-link" aria-label="Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop"></a>
   <div class="pub-preview">
     <div class="pub-left">
       <img src="{{ '/assets/images/paper1-teaser.png' | relative_url }}" alt="paper1 teaser" class="pub-image">
@@ -64,16 +65,19 @@ title: Taeyoung Ko
     </div>
   </div>
 </div>
+
 ---
 
 ## Playground
+
 ---
-<div class="pub playground-card">
+
+<div class="pub hover-card playground-card">
   <a href="{{ '/playground/1/' | relative_url }}" class="card-link" aria-label="Visual-Linguistic Design of This Page"></a>
   <div class="pub-preview">
     <div class="pub-left">
       <img src="{{ '/assets/images/playground-1-teaser.png' | relative_url }}" alt="Playground 1 teaser" class="pub-image">
-      <div class="pub-title">Visual-Linguistic Design of This Page</div>
+      <div class="pub-title">Your Cursor, Subtitled</div>
       <div class="pub-meta">Inspired by <em>Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop.</em> <span class="pub-venue"><em>CSCW 2026</em></span></div>
     </div>
     <div class="pub-abstract-wrap">
@@ -84,4 +88,5 @@ title: Taeyoung Ko
     </div>
   </div>
 </div>
+
 ---
