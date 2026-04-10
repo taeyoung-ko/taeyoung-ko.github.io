@@ -82,6 +82,7 @@ a:hover { border-bottom-color: var(--fg); }
   grid-template-columns: 1fr 2.5fr;
   gap: 3rem;
   margin: 0 0 4rem;
+  align-items: center;
 }
 
 .hero-right {
@@ -110,7 +111,7 @@ a:hover { border-bottom-color: var(--fg); }
   font-size: 0.9rem;
   font-weight: 300;
   color: var(--fg);
-  margin: 0 0 2rem;
+  margin: 0 0 0rem;
 }
 
 .hero-right .contact a {
