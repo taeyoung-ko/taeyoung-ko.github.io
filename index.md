@@ -51,8 +51,8 @@ title: Taeyoung Ko
 
 <div class="pub">
   <div class="pub-title"><a href="https://doi.org/10.1145/3817018" target="_blank">Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop: A Computational Analysis of Telop Used in Korean YouTube Videos.</a></div>
-  <div class="pub-meta"><strong>Taeyoung Ko</strong> and Kyungho Lee*. <span class="pub-venue">Proceedings of the ACM on Human-Computer Interaction (CSCW'26).</span></div>
-  <div class="pub-links"><a href="https://doi.org/10.1145/3817018" target="_blank">DOI</a></div>
+  <div class="pub-authors"><strong>Taeyoung Ko</strong> and Kyungho Lee*.</div>
+  <div class="pub-venue">Proceedings of the ACM on Human-Computer Interaction (CSCW'26).</div>
 </div>
 
 ---
@@ -63,8 +63,8 @@ title: Taeyoung Ko
 
 <div class="pub">
   <div class="pub-title"><a href="{{ '/playground/1/' | relative_url }}">Your Cursor, Subtitled</a></div>
-  <div class="pub-meta">Inspired by <em>Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop.</em> <span class="pub-venue">CSCW 2026</span></div>
-  <div class="pub-links"><a href="{{ '/playground/1/' | relative_url }}">Project</a></div>
+  <div class="pub-authors">Inspired by <em>Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop.</em></div>
+  <div class="pub-venue">CSCW 2026</div>
 </div>
 
 ---
