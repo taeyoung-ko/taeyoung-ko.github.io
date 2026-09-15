@@ -49,15 +49,10 @@ title: Taeyoung Ko
 
 ---
 
-<div class="pub hover-card">
-  <a href="https://doi.org/10.1145/3817018" class="card-link" aria-label="Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop" target="_blank"></a>
-  <div class="pub-preview">
-    <div class="pub-left">
-      <img src="{{ '/assets/images/paper1-teaser.png' | relative_url }}" alt="paper1 teaser" class="pub-image">
-      <div class="pub-title">Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop: A Computational Analysis of Telop Used in Korean YouTube Videos.</div>
-      <div class="pub-meta"><strong>Taeyoung Ko</strong> and Kyungho Lee*. <span class="pub-venue">Proceedings of the ACM on Human-Computer Interaction (CSCW'26). <a href="https://doi.org/10.1145/3817018" target="_blank">doi.org/10.1145/3817018</a></span></div>
-    </div>
-  </div>
+<div class="pub">
+  <div class="pub-title"><a href="https://doi.org/10.1145/3817018" target="_blank">Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop: A Computational Analysis of Telop Used in Korean YouTube Videos.</a></div>
+  <div class="pub-meta"><strong>Taeyoung Ko</strong> and Kyungho Lee*. <span class="pub-venue">Proceedings of the ACM on Human-Computer Interaction (CSCW'26).</span></div>
+  <div class="pub-links"><a href="https://doi.org/10.1145/3817018" target="_blank">DOI</a></div>
 </div>
 
 ---
@@ -66,21 +61,10 @@ title: Taeyoung Ko
 
 ---
 
-<div class="pub hover-card playground-card">
-  <a href="{{ '/playground/1/' | relative_url }}" class="card-link" aria-label="Visual-Linguistic Design of This Page"></a>
-  <div class="pub-preview">
-    <div class="pub-left">
-      <img src="{{ '/assets/images/playground-1-teaser.png' | relative_url }}" alt="Playground 1 teaser" class="pub-image">
-      <div class="pub-title">Your Cursor, Subtitled</div>
-      <div class="pub-meta">Inspired by <em>Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop.</em> <span class="pub-venue"><em>CSCW 2026</em></span></div>
-    </div>
-    <div class="pub-abstract-wrap">
-      <div class="pub-abstract-label">About</div>
-      <p class="pub-abstract">
-        Move your cursor across the page and watch telops bloom in its wake. Each genre button rewires the visual grammar: IT & Science spills dense monospace in cool grays, Kids scatters oversized handwritten shouts, Economy stamps numbers and arrows, ASMR barely whispers anything at all. The frequency, size, color, font, and vocabulary of each trail are derived directly from the empirical patterns reported in the paper — 19,673 videos and 71 million frames distilled into twenty-two distinct design dialects. What felt intuitive to anyone who has watched Korean YouTube becomes something you can feel through your own hand. The cursor, usually silent, gets subtitled in twenty-two different voices. It is a small playground for an idea the paper argues at length: that on-screen text is not merely transcription but an expressive layer, a vibe you can read before you read the words.
-      </p>
-    </div>
-  </div>
+<div class="pub">
+  <div class="pub-title"><a href="{{ '/playground/1/' | relative_url }}">Your Cursor, Subtitled</a></div>
+  <div class="pub-meta">Inspired by <em>Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop.</em> <span class="pub-venue">CSCW 2026</span></div>
+  <div class="pub-links"><a href="{{ '/playground/1/' | relative_url }}">Project</a></div>
 </div>
 
 ---
