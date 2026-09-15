@@ -50,18 +50,12 @@ title: Taeyoung Ko
 ---
 
 <div class="pub hover-card">
-  <a href="#" class="card-link" aria-label="Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop"></a>
+  <a href="https://doi.org/10.1145/3817018" class="card-link" aria-label="Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop" target="_blank"></a>
   <div class="pub-preview">
     <div class="pub-left">
       <img src="{{ '/assets/images/paper1-teaser.png' | relative_url }}" alt="paper1 teaser" class="pub-image">
       <div class="pub-title">Toward a Multi-modal Understanding of Visual-Linguistic Design of Telop: A Computational Analysis of Telop Used in Korean YouTube Videos.</div>
-      <div class="pub-meta"><strong>Taeyoung Ko</strong>, Kyungho Lee. <span class="pub-venue">CSCW 2026</span></div>
-    </div>
-    <div class="pub-abstract-wrap">
-      <div class="pub-abstract-label">Abstract</div>
-      <p class="pub-abstract">
-      Telops—visually stylized on-screen text widely used in East Asian digital media—are associated with attention direction, narrative pacing, and emotional engagement in user-generated video content. Despite their ubiquity on platforms like YouTube, telops remain underexplored in HCI and CSCW research, which has primarily focused on traditional captioning for accessibility. This paper presents the first large-scale, computational analysis of telops on YouTube, introducing a multimodal framework that integrates Optical Character Recognition (OCR), Automatic Speech Recognition (ASR), font-style embeddings, and color extraction to analyze 19,673 Korean YouTube videos spanning 22 genres and 71 million frames. Our analysis reveals systematic, genre-specific conventions in telop usage across frequency, size, positioning, color, and font, with telop features alone achieving 85\% accuracy in genre classification. These findings establish telops as multimodal interface elements that extend beyond traditional captioning paradigms, bridging information access and social experience design. We contribute (1) a replicable computational methodology, (2) empirical characterization of telop design conventions, (3) a theoretical framework distinguishing telop expression from meaning, and (4) implications for cross-cultural HCI, accessibility design, and content creation tools.
-      </p>
+      <div class="pub-meta"><strong>Taeyoung Ko</strong> and Kyungho Lee*. <span class="pub-venue">Proceedings of the ACM on Human-Computer Interaction (CSCW'26). <a href="https://doi.org/10.1145/3817018" target="_blank">doi.org/10.1145/3817018</a></span></div>
     </div>
   </div>
 </div>
