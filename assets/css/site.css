@@ -108,6 +108,64 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+/* ---------- Animated word ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.telop-word {
+  font-weight: 700;
+}
+
+/* letters bounce in turn, 3 cycles (~2.1s total) so motion stops within 5s (WCAG 2.2.2); replays on hover */
+.telop-word span[aria-hidden] span {
+  display: inline-block;
+}
+
+.telop-word.play span[aria-hidden] span {
+  background-image: linear-gradient(90deg, #FFAA80, #E6FF80, #80E6FF, #FFAA80);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: telop-bounce 0.6s ease-in-out 3, telop-gradient 0.6s linear 3;
+  animation-delay: calc(var(--i) * 0.06s);
+}
+
+/* keeps playing for as long as the pointer stays on the word; moving away stops it */
+.telop-word:hover span[aria-hidden] span {
+  background-image: linear-gradient(90deg, #FFAA80, #E6FF80, #80E6FF, #FFAA80);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: telop-bounce 0.6s ease-in-out infinite, telop-gradient 0.6s linear infinite;
+  animation-delay: calc(var(--i) * 0.06s);
+}
+
+@keyframes telop-bounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-0.25em); }
+}
+
+/* the gradient shows only while animating: the text colour is transparent in every keyframe,
+   so it returns to the normal text colour once the animation ends */
+@keyframes telop-gradient {
+  0% { background-position: 0% 50%; color: transparent; }
+  100% { background-position: 100% 50%; color: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .telop-word.play span[aria-hidden] span,
+  .telop-word:hover span[aria-hidden] span {
+    animation: none;
+  }
+}
+
 /* ---------- Hero ---------- */
 .hero {
   display: grid;
@@ -240,9 +298,8 @@ a:focus-visible {
 /* ---------- Education ---------- */
 .edu-list {
   display: grid;
-  grid-template-columns: auto auto;
-  gap: var(--space-24) var(--space-48);
-  justify-content: start;
+  grid-template-columns: 1fr;
+  gap: var(--space-24);
 }
 
 .edu {
@@ -274,15 +331,15 @@ a:focus-visible {
   margin-top: var(--space-24);
 }
 
-/* hover highlight: a #E6FF80 border drawn 8px outside the text, without moving any layout */
+/* hover highlight: #E6FF80 at 50% opacity behind the entry, extended 8px around the text
+   with box-shadow so no layout moves */
 .pub-hover {
-  outline: 4px solid transparent;
-  outline-offset: var(--space-8);
-  transition: outline-color 0.15s ease;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .pub-hover:hover {
-  outline-color: #E6FF80;
+  background-color: rgb(230 255 128 / 50%);
+  box-shadow: 0 0 0 var(--space-8) rgb(230 255 128 / 50%);
 }
 
 .pub-title {
@@ -421,9 +478,6 @@ a:focus-visible {
 
 
 
-  .edu-list {
-    grid-template-columns: 1fr;
-  }
 
   .site-footer {
     flex-direction: column;
