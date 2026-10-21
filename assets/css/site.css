@@ -1,0 +1,401 @@
+/* ---------- Tokens ---------- */
+:root {
+  --fg: #1a1a1a;
+  --muted: #3f3f3f;
+  --bg: #F9F9F5;
+  --rule: #e5e5e5;
+
+  /* spacing scale, 8px base unit (Atlassian / IBM Carbon), 1rem = 16px browser default */
+  --space-4: 0.25rem;
+  --space-8: 0.5rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-48: 3rem;
+  --space-64: 4rem;
+  --space-80: 5rem;
+  --space-96: 6rem;
+
+  /* type scale (Atlassian typography tokens) */
+  --heading-xxlarge-size: 2rem;     --heading-xxlarge-lh: 2.25rem;
+  --heading-large-size: 1.5rem;     --heading-large-lh: 1.75rem;
+  --body-large-size: 1rem;          --body-large-lh: 1.5rem;
+  --body-size: 0.875rem;            --body-lh: 1.25rem;
+
+  --content-w: 80rem;
+
+  --page-y: var(--space-80);
+  --page-x: var(--space-32);
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: var(--body-large-size);
+  line-height: var(--body-large-lh);
+  font-weight: 400;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+main {
+  max-width: calc(var(--content-w) + 2 * var(--page-x));
+  margin: 0 auto;
+  padding: var(--page-y) var(--page-x);
+}
+
+/* ---------- Typography ---------- */
+h1 {
+  font-family: "Lora", Georgia, serif;
+  font-size: var(--heading-xxlarge-size);
+  line-height: var(--heading-xxlarge-lh);
+  font-weight: 700;
+  margin: 0 0 var(--space-24);
+}
+
+h2 {
+  font-family: "Lora", Georgia, serif;
+  font-size: var(--heading-large-size);
+  line-height: var(--heading-large-lh);
+  font-weight: 700;
+  margin: var(--space-80) 0 var(--space-24);
+}
+
+p {
+  margin: 0 0 var(--space-16);
+}
+
+/* avoid a single orphaned word on the last line */
+p, .pub-title, .pub-authors, .pub-venue, .edu > div { text-wrap: pretty; }
+h1, h2 { text-wrap: balance; }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+main > hr {
+  margin: var(--space-24) 0;
+}
+
+main > hr:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 0.15s ease;
+}
+a:hover { border-bottom-color: var(--fg); }
+
+a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-48);
+  align-items: start;
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-right > :last-child {
+  margin-bottom: 0;
+}
+
+/* optical adjustment: photo top aligns with the name's capital letters, photo bottom with the last baseline */
+.hero-right h1 { text-box: trim-start cap alphabetic; }
+.hero-right > :last-child { text-box: trim-end cap alphabetic; }
+
+/* WCAG 1.4.1: links inside running text are underlined, not distinguished by colour alone */
+.hero-right p a {
+  color: #FFAA80;
+  font-weight: 700;
+  border-bottom: none;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.hero-right p a:hover {
+  color: #80E6FF;
+}
+
+.profile {
+  display: block;
+  width: auto;
+  height: 22.5rem;
+}
+
+.hero-left {
+  width: min-content;
+}
+
+.hero-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  margin-bottom: var(--space-8);
+}
+
+.hero-head h1 {
+  margin: 0;
+}
+
+/* icons do not add height to the name row (negative margins = circle height);
+   optical adjustment: lift 4px so circle centres sit on the centre of the capitals */
+.hero-head .contact-icons {
+  margin-block: calc(var(--space-32) / -2);
+  position: relative;
+  top: calc(-1 * var(--space-4));
+}
+
+.contact-email {
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  margin-bottom: var(--space-24);
+}
+
+.contact-icons {
+  display: flex;
+  gap: var(--space-8);
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+/* each icon sits in a circle; the circle is the pointer target (>= 24 x 24 CSS px, WCAG 2.5.8) */
+.contact-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-32);
+  height: var(--space-32);
+  border: 1px solid var(--fg);
+  border-radius: 50%;
+}
+
+/* ---------- Education ---------- */
+.edu-list {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: var(--space-24) var(--space-48);
+  justify-content: start;
+}
+
+.edu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.edu-degree {
+  font-size: var(--body-large-size);
+  line-height: var(--body-large-lh);
+}
+
+.edu-school,
+.edu-period {
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  color: var(--muted);
+}
+
+/* ---------- Publications ---------- */
+.pub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pub + .pub {
+  margin-top: var(--space-24);
+}
+
+/* hover highlight; box-shadow extends the colour 8px around the text without moving any layout */
+.pub-hover {
+  border-radius: var(--space-4);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pub-hover:hover {
+  background-color: #E6FF80;
+  box-shadow: 0 0 0 var(--space-8) #E6FF80;
+}
+
+.pub-title {
+  font-size: var(--body-large-size);
+  line-height: var(--body-large-lh);
+}
+
+.pub-title a {
+  border-bottom-color: transparent;
+}
+
+.pub-title a:hover {
+  border-bottom-color: var(--fg);
+}
+
+/* paper titles: same weight and dotted underline as the intro links, but no colour */
+.pub-hover .pub-title a {
+  font-weight: 700;
+  border-bottom: none;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.pub-authors,
+.pub-venue {
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+}
+
+.pub-venue {
+  color: var(--muted);
+}
+
+.pub-award {
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  font-weight: 700;
+}
+
+/* ---------- Media art ---------- */
+.media-list {
+  display: flex;
+  gap: var(--space-24);
+}
+
+/* same size as the profile photo (--photo-w is set by the hero script) */
+.media-item {
+  position: relative;
+  display: block;
+  width: var(--photo-w, 12.5rem);
+  max-width: calc((100% - var(--space-24)) / 2);
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+}
+
+.media-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.2s ease;
+}
+
+.media-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16);
+  text-align: center;
+  color: var(--bg);
+  font-size: var(--body-large-size);
+  line-height: var(--body-large-lh);
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.media-item:hover img {
+  filter: brightness(0.2);
+}
+
+.media-item:hover .media-title {
+  opacity: 1;
+}
+
+/* ---------- Footer ---------- */
+.footer-rule {
+  width: calc(100% - 2 * var(--page-x));
+  max-width: var(--content-w);
+  margin: 0 auto;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.site-footer {
+  max-width: calc(var(--content-w) + 2 * var(--page-x));
+  margin: 0 auto;
+  padding: var(--space-48) var(--page-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  color: var(--muted);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 55rem) {
+  :root {
+    --page-y: var(--space-48);
+    --page-x: var(--space-16);
+  }
+
+  h2 {
+    margin-top: var(--space-64);
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-24);
+  }
+
+  .profile {
+    width: 100%;
+    height: auto;
+    max-width: 12.5rem;
+    margin: 0 auto;
+  }
+
+  .hero-left {
+    width: auto;
+  }
+
+
+
+  .edu-list {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+    padding: var(--space-32) var(--page-x) var(--space-48);
+  }
+
+  .playground-wrap {
+    padding: var(--space-32) var(--space-16) var(--space-64);
+  }
+
+  .genre-btn {
+    padding: var(--space-4) var(--space-8);
+  }
+}

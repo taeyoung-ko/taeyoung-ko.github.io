@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
 </head>
@@ -53,6 +53,32 @@
       .catch(() => {
         document.getElementById('weather').textContent = 'Ulsan';
       });
+  })();
+
+  (function() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    const img = hero.querySelector('.profile');
+    const right = hero.querySelector('.hero-right');
+    const mobile = window.matchMedia('(max-width: 55rem)');
+
+    function setPhotoVars() {
+      document.documentElement.style.setProperty('--photo-w', img.offsetWidth + 'px');
+    }
+
+    function fit() {
+      if (mobile.matches) { img.style.height = ''; setPhotoVars(); return; }
+      for (let i = 0; i < 5; i++) {
+        const target = right.getBoundingClientRect().height;
+        if (Math.abs(target - img.offsetHeight) < 1) break;
+        img.style.height = target + 'px';
+      }
+      setPhotoVars();
+    }
+
+    if (img.complete) fit(); else img.addEventListener('load', fit);
+    if (document.fonts) document.fonts.ready.then(fit);
+    window.addEventListener('resize', fit);
   })();
 
   (function() {
