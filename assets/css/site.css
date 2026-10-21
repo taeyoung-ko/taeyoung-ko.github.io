@@ -194,6 +194,47 @@ a:focus-visible {
   height: var(--space-32);
   border: 1px solid var(--fg);
   border-radius: 50%;
+  transition: background-color 0.15s ease;
+}
+
+.contact-icons a:hover {
+  background-color: #E6FF80;
+}
+
+.contact-icons a {
+  position: relative;
+}
+
+.icon-label {
+  position: absolute;
+  bottom: calc(100% + var(--space-8));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-4) var(--space-8);
+  white-space: nowrap;
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  color: #E6FF80;
+  background-color: var(--fg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+/* speech-bubble tail pointing down at the icon */
+.icon-label::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--fg);
+}
+
+.contact-icons a:hover .icon-label {
+  opacity: 1;
 }
 
 /* ---------- Education ---------- */
@@ -233,15 +274,15 @@ a:focus-visible {
   margin-top: var(--space-24);
 }
 
-/* hover highlight; box-shadow extends the colour 8px around the text without moving any layout */
+/* hover highlight: a #E6FF80 border drawn 8px outside the text, without moving any layout */
 .pub-hover {
-  border-radius: var(--space-4);
-  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  outline: 4px solid transparent;
+  outline-offset: var(--space-8);
+  transition: outline-color 0.15s ease;
 }
 
 .pub-hover:hover {
-  background-color: #E6FF80;
-  box-shadow: 0 0 0 var(--space-8) #E6FF80;
+  outline-color: #E6FF80;
 }
 
 .pub-title {

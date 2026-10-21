@@ -11,9 +11,9 @@ title: Taeyoung Ko
     <div class="hero-head">
       <h1>Taeyoung Ko</h1>
       <div class="contact-icons">
-        <a href="https://scholar.google.com/citations?user=ahLm-vEAAAAJ&hl=ko" target="_blank" title="Google Scholar" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
-        <a href="https://www.linkedin.com/in/taeyoung-ko-310ab6117/" target="_blank" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://github.com/taeyoung-ko" target="_blank" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://scholar.google.com/citations?user=ahLm-vEAAAAJ&hl=ko" target="_blank" aria-label="Google Scholar"><i class="fa-solid fa-graduation-cap"></i><span class="icon-label" aria-hidden="true">Google Scholar</span></a>
+        <a href="https://www.linkedin.com/in/taeyoung-ko-310ab6117/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i><span class="icon-label" aria-hidden="true">LinkedIn</span></a>
+        <a href="https://github.com/taeyoung-ko" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i><span class="icon-label" aria-hidden="true">GitHub</span></a>
       </div>
     </div>
     <div class="contact-email">tyk0506@unist.ac.kr</div>
