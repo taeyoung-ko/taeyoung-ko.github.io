@@ -2,7 +2,7 @@
 :root {
   --fg: #1a1a1a;
   --muted: #3f3f3f;
-  --bg: #F9F9F5;
+  --bg: #FCFCFA;
   --rule: #e5e5e5;
 
   /* spacing scale, 8px base unit (Atlassian / IBM Carbon), 1rem = 16px browser default */
@@ -331,15 +331,15 @@ a:focus-visible {
   margin-top: var(--space-24);
 }
 
-/* hover highlight: #E6FF80 at 50% opacity behind the entry, extended 8px around the text
+/* hover highlight: #E6FF80 at 25% opacity behind the entry, extended 8px around the text
    with box-shadow so no layout moves */
 .pub-hover {
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .pub-hover:hover {
-  background-color: rgb(230 255 128 / 50%);
-  box-shadow: 0 0 0 var(--space-8) rgb(230 255 128 / 50%);
+  background-color: rgb(230 255 128 / 25%);
+  box-shadow: 0 0 0 var(--space-8) rgb(230 255 128 / 25%);
 }
 
 .pub-title {
