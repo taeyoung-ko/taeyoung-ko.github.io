@@ -55,7 +55,7 @@ main {
 
 /* ---------- Typography ---------- */
 h1 {
-  font-family: "Lora", Georgia, serif;
+  font-family: "Bitter", Georgia, serif;
   font-size: var(--heading-xxlarge-size);
   line-height: var(--heading-xxlarge-lh);
   font-weight: 700;
@@ -63,7 +63,7 @@ h1 {
 }
 
 h2 {
-  font-family: "Lora", Georgia, serif;
+  font-family: "Bitter", Georgia, serif;
   font-size: var(--heading-large-size);
   line-height: var(--heading-large-lh);
   font-weight: 700;
